@@ -63,10 +63,11 @@ include Rolls.mk
 default: pre-roll roll
 
 pre-roll:
+	rpm --import http://software.internet2.edu/rpms/RPM-GPG-KEY-Internet2 
 	make -C src/perfSONAR perfSONAR.xml
 	cp src/perfSONAR/perfSONAR.xml nodes	
 
-clean::
+veryclean: clean
 	-/bin/rm nodes/perfSONAR.xml
 	-/bin/rm -rf RPMS/*
 	-/bin/rm -rf SRPMS
