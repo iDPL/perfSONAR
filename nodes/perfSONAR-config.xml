@@ -1,0 +1,15 @@
+
+<kickstart>
+
+<post>
+<file name="/perfsonar-release">
+perfSONAR 3.3.2 via Rocks Roll
+</file>
+
+<!-- Disable EPEL and Internet2 repos -->
+for r in epel.repo Internet2.repo; do
+	/bin/sed -i 's/^enabled.*/enabled=0/' /etc/yum.repos.d/$r; 
+done
+ 
+</post>
+</kickstart>

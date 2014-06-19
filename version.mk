@@ -1,0 +1,6 @@
+ROLLNAME	= perfSONAR
+VERSION		= 3.3.2
+RELEASE		= 0
+COLOR		= skyblue
+
+REDHAT.ROOT	= $(CURDIR)
