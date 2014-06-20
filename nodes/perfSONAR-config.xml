@@ -45,5 +45,8 @@ aeEuX+OFqn9csEs=
 </file>
 rpm --import /tmp/RPM-GPG-KEY-Internet2 
 
+<!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
+/sbin/chkconfig --add sshd
+
 </post>
 </kickstart>

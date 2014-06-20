@@ -66,6 +66,8 @@ include Rules.mk
 REPO_RPMS = 
 PERFSONAR_BUNDLES = perfSONAR_PS-Bundles.spec
 PERFSONAR_PKGS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires: | awk '{printf("%s ", $$2) }')
+PERFSONAR_PKGS += perl-perfSONAR_PS-Toolkit perl-perfSONAR_PS-perfAdmin 
+
 EPEL_REPO_RPM = epel-release-6-8.noarch.rpm
 REPO_RPMS += $(EPEL_REPO_RPM)
 EPEL_REPO = epel.repo
