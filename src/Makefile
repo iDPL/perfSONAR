@@ -60,7 +60,8 @@
 
 default:	pkg
 
-NONPKGDIRS = perfSONAR
+NONPKGDIRS = epel-support perfSONAR
+SRCDIRS = usersguide 
 
 pkg rpm ::
 	for i in $(SRCDIRS) ; do \
