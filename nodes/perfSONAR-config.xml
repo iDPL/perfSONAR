@@ -49,4 +49,26 @@ rpm --import /tmp/RPM-GPG-KEY-Internet2
 /sbin/chkconfig --add sshd
 
 </post>
+
+<post>
+<!-- ROCKS fix: need to remove the rocks mysql.sock from /etc/php.d/mysql.ini 
+-->
+if [ -f /etc/php.d/mysql.ini ]; then
+grep -v '/var/opt/rocks/mysql/mysql.sock' /etc/php.d/mysql.ini > /tmp/mysql.ini
+<file name='/etc/php.d/mysql.ini' expr='cat /tmp/mysql.ini'/>
+fi
+
+</post>
+<post>
+<!-- perfSONAR Fixes -->
+<!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
+/sbin/chkconfig --add sshd
+
+<!-- Some versions of perfsonar_ps don't softlink the cacti admin -->
+if [ ! -L /opt/perfsonar_ps/toolkit/web/root/gui/cacti ]; 
+cd /opt/perfsonar_ps/toolkit/web/root/gui
+ln -s ../admin/cacti .
+fi
+
+</post>
 </kickstart>

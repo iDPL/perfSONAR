@@ -24,4 +24,8 @@
 		<to>perfSONAR-config</to>
 	</edge>
 
+	<order head="apache">
+		<tail>perfSONAR-config</tail>
+	</order>
+
 </graph>
