@@ -70,5 +70,10 @@ cd /opt/perfsonar_ps/toolkit/web/root/gui
 ln -s ../admin/cacti .
 fi
 
+<!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
+if [ -f /etc/init.d/configure_nic_parameters ]; then
+	/sbin/chkconfig --del configure_nic_parameters
+fi
+
 </post>
 </kickstart>
