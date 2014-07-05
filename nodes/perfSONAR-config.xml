@@ -61,19 +61,60 @@ fi
 </post>
 <post>
 <!-- perfSONAR Fixes -->
-<!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
-/sbin/chkconfig --add sshd
 
 <!-- Some versions of perfsonar_ps don't softlink the cacti admin -->
-if [ ! -L /opt/perfsonar_ps/toolkit/web/root/gui/cacti ]; 
-cd /opt/perfsonar_ps/toolkit/web/root/gui
-ln -s ../admin/cacti .
+if [ ! -L /opt/perfsonar_ps/toolkit/web/root/gui/cacti ]; then 
+	cd /opt/perfsonar_ps/toolkit/web/root/gui
+	ln -s ../admin/cacti .
 fi
 
+<!-- perfSONAR startup seems to disable sshd, undo this madness -->
 <!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
+<file name="/etc/rc.d/rocksconfig.d/post-98-perfSONAR" perms="744">
+#!/bin/sh
+# perfSONAR startup seems to disable sshd, undo this madness
+# Configure NIC Parameters can cause unexpected performance issues, turn it off
+
+/sbin/chkconfig --add sshd
+
 if [ -f /etc/init.d/configure_nic_parameters ]; then
 	/sbin/chkconfig --del configure_nic_parameters
 fi
-
+</file>
 </post>
+
+<!-- Patch service_watcher script to not kill rocks database -->
+<post>
+<file name="/opt/perfsonar_ps/toolkit/scripts/service_watcher.patch">
+*** scripts.orig/service_watcher	2014-07-05 10:45:08.587289740 -0700
+--- scripts/service_watcher	2014-07-04 09:26:16.257174438 -0700
+***************
+*** 1093,1101 ****
+  sub kill {
+  	my ($self) = @_;
+  
+! 	system("pkill -f mysqld");
+  	sleep(3);
+! 	system("pkill -9 -f mysqld");
+  
+  	return (0, "");
+  }
+--- 1093,1101 ----
+  sub kill {
+  	my ($self) = @_;
+  
+! 	system("pkill -U mysql -f mysqld");
+  	sleep(3);
+! 	system("pkill -U mysql -9 -f mysqld");
+  
+  	return (0, "");
+  }
+</file>
+if [ -f /opt/perfsonar_ps/toolkit/scripts/service_watcher ]; then
+	pushd /opt/perfsonar_ps/toolkit/scripts
+	patch -p1 --input=service_watcher.patch
+	popd
+fi
+</post>
+
 </kickstart>
