@@ -81,6 +81,14 @@ if [ -f /etc/init.d/configure_nic_parameters ]; then
 	/sbin/chkconfig --del configure_nic_parameters
 fi
 </file>
+
+</post>
+
+<post>
+<!-- jowping has a vulnerability and needs to be removed -->
+if [ -d /opt/perfsonar_ps/toolkit/web/root/gui/jowping ]; then 
+	/bin/rm -rf /opt/perfsonar_ps/toolkit/web/root/gui/jowping/
+fi
 </post>
 
 <!-- Patch service_watcher script to not kill rocks database -->
