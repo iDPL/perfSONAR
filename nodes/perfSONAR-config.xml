@@ -46,7 +46,7 @@ aeEuX+OFqn9csEs=
 rpm --import /tmp/RPM-GPG-KEY-Internet2 
 
 <!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
-/sbin/chkconfig --add sshd
+/sbin/chkconfig sshd on
 
 </post>
 
@@ -75,7 +75,8 @@ fi
 # perfSONAR startup seems to disable sshd, undo this madness
 # Configure NIC Parameters can cause unexpected performance issues, turn it off
 
-/sbin/chkconfig --add sshd
+/sbin/chkconfig sshd on
+/sbin/service sshd start 
 
 if [ -f /etc/init.d/configure_nic_parameters ]; then
 	/sbin/chkconfig --del configure_nic_parameters
