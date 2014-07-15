@@ -60,6 +60,15 @@ fi
 
 </post>
 <post>
+<!-- enable world access to https (not http) -->
+<![CDATA[
+/opt/rocks/bin/rocks add firewall host=localhost chain=INPUT \
+        flags="-m state --state NEW" \
+        protocol=tcp service=https action=ACCEPT network=public rulename="A40-HTTPS-PERFSONAR-PUBLIC-LAN"
+]]>
+</post>
+
+<post>
 <!-- perfSONAR Fixes -->
 
 <!-- Some versions of perfsonar_ps don't softlink the cacti admin -->
