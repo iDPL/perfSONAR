@@ -72,7 +72,7 @@ EPEL_REPO_RPM = epel-release-6-8.noarch.rpm
 REPO_RPMS += $(EPEL_REPO_RPM)
 EPEL_REPO = epel.repo
 
-INTERNET2_REPO_RPM = Internet2-repo-0.4-2.noarch.rpm
+INTERNET2_REPO_RPM = Internet2-repo-$(I2_REPO_VER).noarch.rpm
 REPO_RPMS += $(INTERNET2_REPO_RPM)
 INTERNET2_REPO = Internet2.repo
 
