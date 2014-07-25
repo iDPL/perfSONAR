@@ -28,8 +28,4 @@
 		<tail>perfSONAR-config</tail>
 	</order>
 
-	<order head="database-sec">
-		<tail>perfSONAR-config</tail>
-	</order>
-
 </graph>
