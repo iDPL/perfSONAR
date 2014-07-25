@@ -47,6 +47,8 @@ rpm --import /tmp/RPM-GPG-KEY-Internet2
 
 <!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
 /sbin/chkconfig sshd on
+<!-- perfSONAR doesn't seem to turn on mysqld -->
+/sbin/chkconfig mysqld on
 
 </post>
 
@@ -61,11 +63,9 @@ fi
 </post>
 <post>
 <!-- enable world access to https (not http) -->
-<![CDATA[
 /opt/rocks/bin/rocks add firewall host=localhost chain=INPUT \
         flags="-m state --state NEW" \
         protocol=tcp service=https action=ACCEPT network=public rulename="A40-HTTPS-PERFSONAR-PUBLIC-LAN"
-]]>
 </post>
 
 <post>
@@ -83,6 +83,7 @@ fi
 #!/bin/sh
 # perfSONAR startup seems to disable sshd, undo this madness
 # Configure NIC Parameters can cause unexpected performance issues, turn it off
+# Make sure that mysqld is enabled and running
 
 /sbin/chkconfig sshd on
 /sbin/service sshd start 
@@ -90,6 +91,10 @@ fi
 if [ -f /etc/init.d/configure_nic_parameters ]; then
 	/sbin/chkconfig --del configure_nic_parameters
 fi
+
+/sbin/chkconfig mysqld on
+/sbin/service mysqld start 
+
 </file>
 
 </post>
