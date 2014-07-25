@@ -28,4 +28,8 @@
 		<tail>perfSONAR-config</tail>
 	</order>
 
+	<order head="database-data">
+		<tail>perfSONAR-config</tail>
+	</order>
+
 </graph>
