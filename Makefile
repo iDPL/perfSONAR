@@ -70,6 +70,7 @@ preroll::
 	cp src/perfSONAR/perfSONAR.xml nodes	
 
 veryclean: clean
+	make -C src veryclean
 	-/bin/rm nodes/perfSONAR.xml
 	-/bin/rm -rf RPMS/*
 	-/bin/rm -rf SRPMS

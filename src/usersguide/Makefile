@@ -84,4 +84,4 @@ clean::
 	rm -f *.html
 	rm -f index.pdf
 
-
+veryclean::

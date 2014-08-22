@@ -85,6 +85,7 @@ PS_REPOS = $(subst .repo,$(EMPTY),$(REPOS))
 E_REPOS = base updates
 E_REPOS += $(PS_REPOS)
 ENABLED_REPOS= $(subst $(SPACE),$(COMMA),$(E_REPOS))
+FILELIST = ps-pkgs
 
 .PHONY: force RPMS local-config $(PERFSONAR_PKGS)
 
@@ -94,9 +95,9 @@ default: $(HOME)/.rpmmacros rpm-mkdirs RPMS
 	$(MAKE) $(PERFSONAR_PKGS)
 	-mkdir $(REDHAT.RPMS)/noarch
 	-mkdir $(REDHAT.RPMS)/$(ARCH)
-	$(INSTALL) RPMS/*noarch*rpm $(REDHAT.RPMS)/noarch
-	$(INSTALL) $(REPO_RPMS) $(REDHAT.RPMS)/noarch
-	$(INSTALL) RPMS/*$(ARCH)*rpm $(REDHAT.RPMS)/$(ARCH)
+	$(INSTALL) -p RPMS/*noarch*rpm $(REDHAT.RPMS)/noarch
+	$(INSTALL) -p $(REPO_RPMS) $(REDHAT.RPMS)/noarch
+	$(INSTALL) -p RPMS/*$(ARCH)*rpm $(REDHAT.RPMS)/$(ARCH)
 	$(MAKE) localrepo
 
 
@@ -120,8 +121,13 @@ local-config: RPMS
 RPMS:
 	-mkdir RPMS
 
+
 $(PERFSONAR_PKGS): 
-	yumdownloader --resolve --disablerepo='*' --enablerepo=$(ENABLED_REPOS) --destdir=RPMS $@
+	yumdownloader --resolve --urls --disablerepo='*' --enablerepo=$(ENABLED_REPOS) --destdir=RPMS $@  | grep ^http >  $(FILELIST)
+	(cd RPMS; wget -nc -i ../$(FILELIST)) 
 
 clean::
-	/bin/rm -rf RPMS perfSONAR.xml
+	- /bin/rm -rf RPMS perfSONAR.xml $(FILELIST)
+
+veryclean:: clean
+	/usr/bin/yum -y erase Internet2-repo

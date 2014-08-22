@@ -62,7 +62,8 @@ REDHAT.ROOT = $(CURDIR)/../../
 include Rules.mk
 
 ## Download packages from EPEL
-
+FILELIST = pkg-list
+ENABLED_REPOS = epel
 EPEL_PKGS = libnet \
 	libnet-devel \
 	perl-aliased \
@@ -105,8 +106,8 @@ default: $(HOME)/.rpmmacros rpm-mkdirs $(COMPONENTS) RPMS
 	$(SED) -i 's/^enabled.*/enabled=0/' /etc/yum.repos.d/epel.repo
 	$(MAKE) $(EPEL_PKGS)
 	-mkdir $(REDHAT.RPMS)/noarch
-	$(INSTALL) RPMS/*noarch*rpm $(REDHAT.RPMS)/noarch
-	$(INSTALL) RPMS/*$(ARCH)*rpm $(REDHAT.RPMS)/$(ARCH)
+	$(INSTALL) -p RPMS/*noarch*rpm $(REDHAT.RPMS)/noarch
+	$(INSTALL) -p RPMS/*$(ARCH)*rpm $(REDHAT.RPMS)/$(ARCH)
 	$(MAKE) localrepo
 
 localrepo: local-config
@@ -120,7 +121,11 @@ RPMS:
 	-mkdir RPMS
 
 $(EPEL_PKGS): 
-	yumdownloader --resolve --disablerepo='*' --enablerepo=epel --destdir=RPMS $@
+	yumdownloader --resolve --urls --disablerepo='*' --enablerepo=$(ENABLED_REPOS) --destdir=RPMS $@  | grep ^http >  $(FILELIST)
+	(cd RPMS; wget -nc -i ../$(FILELIST)) 
 
 clean::
-	/bin/rm -rf RPMS
+	- /bin/rm -rf RPMS $(FILELIST)
+
+veryclean:: clean
+	- /usr/bin/yum -y erase epel-support

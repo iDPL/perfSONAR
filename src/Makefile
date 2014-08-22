@@ -76,7 +76,7 @@ pkg rpm ::
 		cd ..; \
 	done
 
-copyright clean::
+copyright clean veryclean::
 	for i in $(SRCDIRS) $(NONPKGDIRS) ; do \
 		cd $$i; \
 		$(MAKE) $@ || exit 2 ; \
