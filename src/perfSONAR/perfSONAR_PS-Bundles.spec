@@ -26,6 +26,8 @@ Requires:		iperf
 Requires:               iperf3
 Requires:		ntp
 Requires:		perl-perfSONAR_PS-LSRegistrationDaemon
+Requires:		perl-perfSONAR_PS-Toolkit
+Requires:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
 
 %description Level1
 The perfSONAR Toolkit - Level 1 Bundle
@@ -46,10 +48,19 @@ Requires:		perl-perfSONAR_PS-LSRegistrationDaemon
 Requires:		perl-perfSONAR_PS-PingER-server
 Requires:		perl-perfSONAR_PS-perfSONARBUOY-client
 Requires:		perl-perfSONAR_PS-TracerouteMA-client
+Requires:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
 Requires:		perl-perfSONAR_PS-MeshConfig-Agent
 
 %description Level2
 The perfSONAR Toolkit - Level 2 Bundle
+
+%package maddash 
+Summary:		pS-Performance Toolkit Bundle - maddash 
+Group:			Applications/Communications
+Requires:		maddash	
+Requires:		maddash-server
+Requires:		maddash-webui
+
 
 %post
 
@@ -60,6 +71,9 @@ The perfSONAR Toolkit - Level 2 Bundle
 %defattr(0644,perfsonar,perfsonar,0755)
 
 %files Level2
+%defattr(0644,perfsonar,perfsonar,0755)
+
+%files maddash
 %defattr(0644,perfsonar,perfsonar,0755)
 
 %changelog
