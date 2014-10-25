@@ -25,9 +25,9 @@ Requires:		nuttcp
 Requires:		iperf
 Requires:               iperf3
 Requires:		ntp
-Requires:		perl-perfSONAR_PS-LSRegistrationDaemon
-Requires:		perl-perfSONAR_PS-Toolkit
-Requires:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
+Requires2:		perl-perfSONAR_PS-LSRegistrationDaemon
+Requires2:		perl-perfSONAR_PS-Toolkit
+Requires2:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
 
 %description Level1
 The perfSONAR Toolkit - Level 1 Bundle
@@ -44,12 +44,12 @@ Requires:		nuttcp
 Requires:		iperf
 Requires:               iperf3
 Requires:		ntp
-Requires:		perl-perfSONAR_PS-LSRegistrationDaemon
-Requires:		perl-perfSONAR_PS-PingER-server
-Requires:		perl-perfSONAR_PS-perfSONARBUOY-client
-Requires:		perl-perfSONAR_PS-TracerouteMA-client
-Requires:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
-Requires:		perl-perfSONAR_PS-MeshConfig-Agent
+Requires2:		perl-perfSONAR_PS-LSRegistrationDaemon
+Requires2:		perl-perfSONAR_PS-PingER-server
+Requires2:		perl-perfSONAR_PS-perfSONARBUOY-client
+Requires2:		perl-perfSONAR_PS-TracerouteMA-client
+Requires2:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
+Requires2:		perl-perfSONAR_PS-MeshConfig-Agent
 
 %description Level2
 The perfSONAR Toolkit - Level 2 Bundle
@@ -57,9 +57,9 @@ The perfSONAR Toolkit - Level 2 Bundle
 %package maddash 
 Summary:		pS-Performance Toolkit Bundle - maddash 
 Group:			Applications/Communications
-Requires:		maddash	
-Requires:		maddash-server
-Requires:		maddash-webui
+Requires2:		maddash	
+Requires2:		maddash-server
+Requires2:		maddash-webui
 
 
 %post

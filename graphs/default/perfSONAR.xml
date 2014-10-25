@@ -19,9 +19,13 @@
 	</changelog>
 
 	<!-- add edges here -->
-	<edge from="server">
+	<edge from="base">
 		<to>perfSONAR</to>
 		<to>perfSONAR-config</to>
+	</edge>
+	<edge from="server">
+		<to>perfSONAR-server</to>
+		<to>screen-perfSONAR</to>
 	</edge>
 
 	<order head="apache">
@@ -30,6 +34,13 @@
 
 	<order head="database-data">
 		<tail>perfSONAR-config</tail>
+		<tail>perfSONAR-server</tail>
 	</order>
 
+	<order head="screen-clusterinfo">
+		<tail>screen-perfSONAR</tail>
+	</order>
+	<order head="screen-perfSONAR">
+		<tail>screen-network-public</tail>
+	</order>
 </graph>

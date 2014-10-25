@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+</description>
+
+        <copyright>
+        Copyright (c) 2000 - 2012 The Regents of the University of California.
+        All rights reserved. Rocks(r) v5.5/v6.0 www.rocksclusters.org
+        
+        </copyright>
+
+<screen>
+
+	<title>Install perfSONAR WebUI on Frontend</title>
+
+	<variable>
+		<label>Install WebUI on Frontend</label>
+		<name>perfSONAR</name>
+		<type>radio</type>
+		<value>true</value>
+		<help>If checked, the perfSONAR WebUI will be installed on your frontend. Otherwise just networking test support tools like iperf, owamp, nuttcp and others will be installed. The perfSONAR attribute can be set for any node that desires the perfSONAR WebUI</help>
+	</variable>
+	<variable>
+		<label>do NOT Install WebUI on Frontend</label>
+		<name>perfSONAR</name>
+		<type>radio</type>
+		<value>false</value>
+		<help>If checked, the perfSONAR WebUI will not be installed on your frontend. Only networking test support tools like iperf, owamp, nuttcp and others will be installed.</help>
+	</variable>
+
+</screen>
+
+</kickstart> 
+

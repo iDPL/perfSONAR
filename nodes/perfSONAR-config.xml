@@ -1,9 +1,8 @@
-
 <kickstart>
 
 <post>
 <file name="/.perfsonar-release">
-perfSONAR 3.3.2 via Rocks Roll
+perfSONAR 3.4 via Rocks Roll
 </file>
 
 <!-- Disable EPEL and Internet2 repos -->
@@ -45,8 +44,15 @@ aeEuX+OFqn9csEs=
 </file>
 rpm --import /tmp/RPM-GPG-KEY-Internet2 
 
+</post>
+<post cond="perfSONAR">
 <!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
 /sbin/chkconfig sshd on
+<!-- version 3.4 post scriptlet turns off the following services, turn them back on
+-->
+/sbin/chkconfig haldaemon on
+/sbin/chkconfig irqbalance on
+
 <!-- perfSONAR doesn't seem to turn on mysqld -->
 /sbin/chkconfig mysqld on
 
@@ -61,14 +67,8 @@ grep -v '/var/opt/rocks/mysql/mysql.sock' /etc/php.d/mysql.ini > /tmp/mysql.ini
 fi
 
 </post>
-<post>
-<!-- enable world access to https (not http) -->
-/opt/rocks/bin/rocks add firewall host=localhost chain=INPUT \
-        flags="-m state --state NEW" \
-        protocol=tcp service=https action=ACCEPT network=public rulename="A40-HTTPS-PERFSONAR-PUBLIC-LAN"
-</post>
 
-<post>
+<post code="perfSONAR">
 <!-- perfSONAR Fixes -->
 
 <!-- Some versions of perfsonar_ps don't softlink the cacti admin -->
@@ -97,47 +97,6 @@ fi
 
 </file>
 
-</post>
-
-<post>
-<!-- jowping has a vulnerability and needs to be removed -->
-if [ -d /opt/perfsonar_ps/toolkit/web/root/gui/jowping ]; then 
-	/bin/rm -rf /opt/perfsonar_ps/toolkit/web/root/gui/jowping/
-fi
-</post>
-
-<!-- Patch service_watcher script to not kill rocks database -->
-<post>
-<file name="/opt/perfsonar_ps/toolkit/scripts/service_watcher.patch">
-*** scripts.orig/service_watcher	2014-07-05 10:45:08.587289740 -0700
---- scripts/service_watcher	2014-07-04 09:26:16.257174438 -0700
-***************
-*** 1093,1101 ****
-  sub kill {
-  	my ($self) = @_;
-  
-! 	system("pkill -f mysqld");
-  	sleep(3);
-! 	system("pkill -9 -f mysqld");
-  
-  	return (0, "");
-  }
---- 1093,1101 ----
-  sub kill {
-  	my ($self) = @_;
-  
-! 	system("pkill -U mysql -f mysqld");
-  	sleep(3);
-! 	system("pkill -U mysql -9 -f mysqld");
-  
-  	return (0, "");
-  }
-</file>
-if [ -f /opt/perfsonar_ps/toolkit/scripts/service_watcher ]; then
-	pushd /opt/perfsonar_ps/toolkit/scripts
-	patch -p1 --input=service_watcher.patch
-	popd
-fi
 </post>
 
 </kickstart>

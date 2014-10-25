@@ -65,8 +65,17 @@ include Rules.mk
 
 REPO_RPMS = 
 PERFSONAR_BUNDLES = perfSONAR_PS-Bundles.spec
-PERFSONAR_PKGS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires: | awk '{printf("%s ", $$2) }')
-PERFSONAR_PKGS += perl-perfSONAR_PS-Toolkit perl-perfSONAR_PS-perfAdmin 
+
+## Basic Network Tools, iperf, nuttcp, owamp, and others
+PERFSONAR_TOOLS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires: | awk '{printf("%s ", $$2) }')
+
+
+## PerfSONAR TOOLS
+PERFSONAR_PKGS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires2: | awk '{printf("%s ", $$2) }')
+PERFSONAR_PKGS += perl-perfSONAR_PS-perfAdmin 
+
+## ALL PACKAGES
+ALL_PKGS = $(PERFSONAR_TOOLS) $(PERFSONAR_PKGS)
 
 EPEL_REPO_RPM = epel-release-6-8.noarch.rpm
 REPO_RPMS += $(EPEL_REPO_RPM)
@@ -87,12 +96,12 @@ E_REPOS += $(PS_REPOS)
 ENABLED_REPOS= $(subst $(SPACE),$(COMMA),$(E_REPOS))
 FILELIST = ps-pkgs
 
-.PHONY: force RPMS local-config $(PERFSONAR_PKGS)
+.PHONY: force RPMS local-config $(ALL_PKGS)
 
 default: $(HOME)/.rpmmacros rpm-mkdirs RPMS 
 	-yum -y install $(EPEL_REPO_RPM) $(INTERNET2_REPO_RPM) 
 	for r in $(REPOS); do $(SED) -i 's/^enabled.*/enabled=0/' /etc/yum.repos.d/$$r; done
-	$(MAKE) $(PERFSONAR_PKGS)
+	$(MAKE) $(ALL_PKGS)
 	-mkdir $(REDHAT.RPMS)/noarch
 	-mkdir $(REDHAT.RPMS)/$(ARCH)
 	$(INSTALL) -p RPMS/*noarch*rpm $(REDHAT.RPMS)/noarch
@@ -104,8 +113,11 @@ default: $(HOME)/.rpmmacros rpm-mkdirs RPMS
 perfSONAR.xml:
 	echo "<kickstart>" > $@ 
 	echo -e "\t<description>PerfSONAR Version $(VERSION) Packages </description>" >> $@
-	for p in $(PERFSONAR_PKGS) $(patsubst %,%-repo,$(PS_REPOS)) ; do  \
+	for p in $(PERFSONAR_TOOLS) $(patsubst %,%-repo,$(PS_REPOS)) ; do  \
 		echo -e "\t<package>$$p</package>" >> $@; \
+	done
+	for p in $(PERFSONAR_PKGS); do  \
+		echo -e "\t<package cond=\"perfSONAR\">$$p</package>" >> $@; \
 	done
 	echo "</kickstart>" >> $@ 
 	
