@@ -45,16 +45,35 @@ aeEuX+OFqn9csEs=
 rpm --import /tmp/RPM-GPG-KEY-Internet2 
 
 </post>
-<post cond="perfSONAR">
-<!-- perfSONAR post scriptlet seems to disable sshd, undo this madness -->
+
+<post cond="perfSONAR_UI">
+<!-- enable world access to https (not http) -->
+/opt/rocks/bin/rocks add firewall host=localhost chain=INPUT \
+        flags="-m state --state NEW" \
+        protocol=tcp service=https action=ACCEPT network=public rulename="A40-HTTPS-PERFSONAR-PUBLIC-LAN"
+
+<!-- perfSONAR startup seems to disable sshd, undo this madness -->
+<!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
+<file name="/etc/rc.d/rocksconfig.d/post-98-perfSONAR" perms="744">
+#!/bin/sh
+# perfSONAR startup seems to disable sshd, undo this madness
+# Make sure that mysqld is enabled and running
+
 /sbin/chkconfig sshd on
+/sbin/service sshd start 
+
+if [ -f /etc/init.d/configure_nic_parameters ]; then
+	/sbin/chkconfig --del configure_nic_parameters
+fi
+
 <!-- version 3.4 post scriptlet turns off the following services, turn them back on
 -->
 /sbin/chkconfig haldaemon on
 /sbin/chkconfig irqbalance on
 
-<!-- perfSONAR doesn't seem to turn on mysqld -->
 /sbin/chkconfig mysqld on
+
+</file>
 
 </post>
 
@@ -68,14 +87,8 @@ fi
 
 </post>
 
-<post code="perfSONAR">
+<post code="perfSONAR_UI">
 <!-- perfSONAR Fixes -->
-
-<!-- Some versions of perfsonar_ps don't softlink the cacti admin -->
-if [ ! -L /opt/perfsonar_ps/toolkit/web/root/gui/cacti ]; then 
-	cd /opt/perfsonar_ps/toolkit/web/root/gui
-	ln -s ../admin/cacti .
-fi
 
 <!-- perfSONAR startup seems to disable sshd, undo this madness -->
 <!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
@@ -96,7 +109,19 @@ fi
 /sbin/service mysqld start 
 
 </file>
+</post>
 
+<post>
+<!-- Manage turning on/off daemons -->
+[ -f /etc/init.d/owampd ] && /sbin/chkconfig owampd off 
+[ -f /etc/init.d/bwctld ] && /sbin/chkconfig bwtcld off 
+/sbin/chkconfig bwctld off
+
+enable=$(echo &perfSONAR_DAEMONS; | tr [:lower:] [:upper:])
+if [ "$enable" = "TRUE" || "$enable" = "ON" ]; then
+	[ -f /etc/init.d/owampd ] && /sbin/chkconfig owampd off 
+	[ -f /etc/init.d/bwctld ] && /sbin/chkconfig bwtcld off 
+fi
 </post>
 
 </kickstart>

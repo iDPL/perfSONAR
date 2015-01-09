@@ -45,11 +45,15 @@ Requires:		iperf
 Requires:               iperf3
 Requires:		ntp
 Requires2:		perl-perfSONAR_PS-LSRegistrationDaemon
-Requires2:		perl-perfSONAR_PS-PingER-server
-Requires2:		perl-perfSONAR_PS-perfSONARBUOY-client
-Requires2:		perl-perfSONAR_PS-TracerouteMA-client
 Requires2:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		
 Requires2:		perl-perfSONAR_PS-MeshConfig-Agent
+Requires2:		perl-perfSONAR_PS-MeshConfig-GUIAgent
+Requires2:	 	perl-perfSONAR_PS-MeshConfig-JSONBuilder	
+Requires2:	 	perl-perfSONAR_PS-MeshConfig-Shared	
+Requires2:	  	perl-perfSONAR-OPPD-MP-BWCTL
+Requires2:		perl-perfSONAR-OPPD-MP-OWAMP
+Requires2:		perl-perfSONAR-OPPD-MP-Shared
+Requires2:		perl-perfSONAR-OPPD-MP-server
 
 %description Level2
 The perfSONAR Toolkit - Level 2 Bundle

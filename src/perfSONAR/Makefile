@@ -72,7 +72,6 @@ PERFSONAR_TOOLS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires
 
 ## PerfSONAR TOOLS
 PERFSONAR_PKGS = $(shell cat $(PERFSONAR_BUNDLES) | sort | uniq | grep Requires2: | awk '{printf("%s ", $$2) }')
-PERFSONAR_PKGS += perl-perfSONAR_PS-perfAdmin 
 
 ## ALL PACKAGES
 ALL_PKGS = $(PERFSONAR_TOOLS) $(PERFSONAR_PKGS)
@@ -113,11 +112,17 @@ default: $(HOME)/.rpmmacros rpm-mkdirs RPMS
 perfSONAR.xml:
 	echo "<kickstart>" > $@ 
 	echo -e "\t<description>PerfSONAR Version $(VERSION) Packages </description>" >> $@
-	for p in $(PERFSONAR_TOOLS) $(patsubst %,%-repo,$(PS_REPOS)) ; do  \
-		echo -e "\t<package>$$p</package>" >> $@; \
+	for p in $(PERFSONAR_TOOLS) $(patsubst %,%-repo,$(PS_REPOS)) ; do  		\
+		if  [ "$$p" = "bwctl-server" ]; then \
+			echo -e "\t<package cond=\"perfSONAR_BWCTLD\">$$p</package>" >> $@; \
+		elif  [ "$$p" = "owamp-server" ]; then \
+			echo -e "\t<package cond=\"perfSONAR_OWAMPD\">$$p</package>" >> $@; \
+		else									\
+			echo -e "\t<package>$$p</package>" >> $@; 			\
+		fi; 									\
 	done
 	for p in $(PERFSONAR_PKGS); do  \
-		echo -e "\t<package cond=\"perfSONAR\">$$p</package>" >> $@; \
+		echo -e "\t<package cond=\"perfSONAR_UI\">$$p</package>" >> $@; \
 	done
 	echo "</kickstart>" >> $@ 
 	

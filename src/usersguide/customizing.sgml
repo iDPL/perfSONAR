@@ -1,0 +1,73 @@
+<chapter id="customizing" xreflabel="Customizing the perfSONAR Roll">
+
+
+<title>Customizing the perfSONAR Roll</title>
+
+<section id="customizing-perfsonar" xreflabel="Customizing perfSONAR">
+<title>Customizing the perfSONAR Roll</title>
+
+<para>
+
+This section describes the default perfSONAR configuration and some simple
+cusomizations that can be applied in Rocks 
+</para>
+
+<para>
+By default, perfSONAR client tools are installed on all appliance types
+The perfSONAR roll makes use of <emphasis>attributes</emphasis>
+to enable perfSONAR components to be installed on any appliance. Attributes
+control what is installed.
+</para>
+
+<para>
+The basic customizations that can be applied without and scripting/programming
+by setting global, appliance, or host attributes. Please see the
+commands <computeroutput> rocks set attr help </computeroutput>
+and
+<computeroutput> rocks list attr help </computeroutput>
+
+</para>
+
+<para>
+
+<table frame='all'><title>Attributes Used in perfSONAR Roll</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry align="center">Attibute Name</entry>
+  <entry align="center">Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>perfSONAR_DAEMONS</entry>
+<entry>
+If true, Enable perfSONAR owampd and bwctld daemons. Otherwise disable 
+</entry>
+</row>
+<row>
+<entry>perfSONAR_BWCTLD </entry>
+<entry>
+If true, install the bwctld daemon.
+</entry>
+</row>
+<row>
+<entry>perfSONAR_OWAMPD </entry>
+<entry>
+If true, install the owampd daemon.
+</entry>
+</row>
+<row>
+<entry>perfSONAR_UI </entry>
+<entry>
+if true, install the complete perfSONAR UI.
+</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+
+</section>
+</chapter>
+

@@ -1,5 +1,5 @@
 ROLL			= perfSONAR
-VERSION			= 3.3.2
+VERSION			= 3.4.1
 NAME    		= roll-$(ROLL)-usersguide
 RELEASE			= 0
 

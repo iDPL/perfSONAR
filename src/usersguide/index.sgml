@@ -2,6 +2,7 @@
 	<!ENTITY preface    SYSTEM "preface.sgml">
 	<!ENTITY installing SYSTEM "installing.sgml">
 	<!ENTITY using SYSTEM "using.sgml">
+	<!ENTITY customizing    SYSTEM "customizing.sgml">
 	<!ENTITY copyrights SYSTEM "copyrights.sgml">
 	<!ENTITY % entities SYSTEM "entities.sgml">
 	%entities;
@@ -37,6 +38,7 @@
 
 &preface;
 &installing;
+&customizing;
 &using;
 &copyrights;
 
