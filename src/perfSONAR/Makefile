@@ -114,9 +114,9 @@ perfSONAR.xml:
 	echo -e "\t<description>PerfSONAR Version $(VERSION) Packages </description>" >> $@
 	for p in $(PERFSONAR_TOOLS) $(patsubst %,%-repo,$(PS_REPOS)) ; do  		\
 		if  [ "$$p" = "bwctl-server" ]; then \
-			echo -e "\t<package cond=\"perfSONAR_BWCTLD\">$$p</package>" >> $@; \
+			echo -e "\t<package cond=\"perfSONAR_BWCTLD or perfSONAR_UI\">$$p</package>" >> $@; \
 		elif  [ "$$p" = "owamp-server" ]; then \
-			echo -e "\t<package cond=\"perfSONAR_OWAMPD\">$$p</package>" >> $@; \
+			echo -e "\t<package cond=\"perfSONAR_OWAMPD or perfSONAR_UI\">$$p</package>" >> $@; \
 		else									\
 			echo -e "\t<package>$$p</package>" >> $@; 			\
 		fi; 									\

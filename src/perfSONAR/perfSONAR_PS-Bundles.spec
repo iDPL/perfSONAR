@@ -25,6 +25,9 @@ Requires:		nuttcp
 Requires:		iperf
 Requires:               iperf3
 Requires:		ntp
+Requires2:		perl-Time-HiRes
+Requires2:		perl-Archive-Tar
+Requires2:		perl-Module-Load
 Requires2:		perl-perfSONAR_PS-LSRegistrationDaemon
 Requires2:		perl-perfSONAR_PS-Toolkit
 Requires2:		perl-perfSONAR_PS-Toolkit-SystemEnvironment		

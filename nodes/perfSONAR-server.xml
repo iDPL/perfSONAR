@@ -1,16 +1,10 @@
 <kickstart>
 <!-- This runs on the frontend only -->
 <post>
-<!-- remove the global perfSONAR attr given to us at install time
-set the perfSONAR attribute for the frontend -->
+<!-- remove the global perfSONAR_UI attr given to us at install time
+set the perfSONAR_UI attribute for the frontend -->
 /opt/rocks/bin/rocks remove attr perfSONAR_UI
-/opt/rocks/bin/rocks remove attr perfSONAR_DAEMONS
-/opt/rocks/bin/rocks remove attr perfSONAR_OWAMPD
-/opt/rocks/bin/rocks remove attr perfSONAR_BWCTLD
 /opt/rocks/bin/rocks add host attr localhost perfSONAR_UI "&perfSONAR_UI;" 
-/opt/rocks/bin/rocks add host attr localhost perfSONAR_DAEMONS "&perfSONAR_DAEMONS;" 
-/opt/rocks/bin/rocks add host attr localhost perfSONAR_OWAMPD "&perfSONAR_OWAMPD;" 
-/opt/rocks/bin/rocks add host attr localhost perfSONAR_BWCTLD "&perfSONAR_BWCTLD;" 
 </post>
 
 </kickstart>

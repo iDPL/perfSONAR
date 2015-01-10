@@ -15,18 +15,11 @@
 
 	<title>Install perfSONAR WebUI on Frontend</title>
 
-
-	<code>
-		<!-- validate functions are in this file -->
-		<include file="javascript/perfSONAR.js"/>
-	</code>
-
 	<variable>
 		<label>Install WebUI on Frontend</label>
 		<name>perfSONAR_UI</name>
 		<type>radio</type>
 		<value>true</value>
-		<validate>process_perfsonar</validate>
 		<help>If checked, the perfSONAR WebUI will be installed on your frontend. Otherwise just networking test support tools like iperf, owamp, nuttcp and others will be installed. The perfSONAR attribute can be set for any node that desires the perfSONAR WebUI</help>
 	</variable>
 	<variable>
@@ -36,22 +29,6 @@
 		<value>false</value>
 		<help>If checked, the perfSONAR WebUI will not be installed on your frontend. Only networking test support tools like iperf, owamp, nuttcp and others will be installed.</help>
 	</variable>
-	<variable>
-		<label>Enable Daemons</label>
-		<name>perfSONAR_DAEMONS</name>
-		<type>hidden</type>
-	</variable>
-	<variable>
-		<label>Install OWAMPD</label>
-		<name>perfSONAR_OWAMPD</name>
-		<type>hidden</type>
-	</variable>
-	<variable>
-		<label>Install BWCTLD</label>
-		<name>perfSONAR_BWCTLD</name>
-		<type>hidden</type>
-	</variable>
-
 </screen>
 
 </kickstart> 
