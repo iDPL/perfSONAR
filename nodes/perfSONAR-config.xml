@@ -87,40 +87,18 @@ fi
 
 </post>
 
-<post code="perfSONAR_UI">
-<!-- perfSONAR Fixes -->
-
-<!-- perfSONAR startup seems to disable sshd, undo this madness -->
-<!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
-<file name="/etc/rc.d/rocksconfig.d/post-98-perfSONAR" perms="744">
-#!/bin/sh
-# perfSONAR startup seems to disable sshd, undo this madness
-# Configure NIC Parameters can cause unexpected performance issues, turn it off
-# Make sure that mysqld is enabled and running
-
-/sbin/chkconfig sshd on
-/sbin/service sshd start 
-
-if [ -f /etc/init.d/configure_nic_parameters ]; then
-	/sbin/chkconfig --del configure_nic_parameters
-fi
-
-/sbin/chkconfig mysqld on
-/sbin/service mysqld start 
-
-</file>
-</post>
-
 <post>
 <!-- Manage turning on/off daemons -->
-[ -f /etc/init.d/owampd ] && /sbin/chkconfig owampd off 
-[ -f /etc/init.d/bwctld ] && /sbin/chkconfig bwtcld off 
+[ -f /etc/init.d/owampd ] &amp;&amp; /sbin/chkconfig owampd off 
+[ -f /etc/init.d/bwctld ] &amp;&amp; /sbin/chkconfig bwtcld off 
 /sbin/chkconfig bwctld off
 
+<!-- Note if the perfSONAR UI is installed, the UI controls the state
+of the daemons-->
 enable=$(echo &perfSONAR_DAEMONS; | tr [:lower:] [:upper:])
 if [ "$enable" = "TRUE" || "$enable" = "ON" ]; then
-	[ -f /etc/init.d/owampd ] && /sbin/chkconfig owampd off 
-	[ -f /etc/init.d/bwctld ] && /sbin/chkconfig bwtcld off 
+	[ -f /etc/init.d/owampd ] &amp;&amp; /sbin/chkconfig owampd off 
+	[ -f /etc/init.d/bwctld ] &amp;&amp; /sbin/chkconfig bwtcld off 
 fi
 </post>
 
