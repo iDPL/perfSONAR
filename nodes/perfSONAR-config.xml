@@ -63,15 +63,21 @@ rpm --import /tmp/RPM-GPG-KEY-Internet2
 /sbin/service sshd start 
 
 if [ -f /etc/init.d/configure_nic_parameters ]; then
-	/sbin/chkconfig --del configure_nic_parameters
+	/sbin/chkconfig configure_nic_parameters off
 fi
 
 <!-- version 3.4 post scriptlet turns off the following services, turn them back on
 -->
 /sbin/chkconfig haldaemon on
 /sbin/chkconfig irqbalance on
+/sbin/service haldaemon restart
+/sbin/service irqbalance restart
+
+
 
 /sbin/chkconfig mysqld on
+
+
 
 </file>
 
