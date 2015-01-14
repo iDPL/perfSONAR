@@ -52,6 +52,8 @@ rpm --import /tmp/RPM-GPG-KEY-Internet2
         flags="-m state --state NEW" \
         protocol=tcp service=https action=ACCEPT network=public rulename="A40-HTTPS-PERFSONAR-PUBLIC-LAN"
 
+/sbin/chkconfig haldaemon on
+
 <!-- perfSONAR startup seems to disable sshd, undo this madness -->
 <!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
 <file name="/etc/rc.d/rocksconfig.d/post-98-perfSONAR" perms="744">
