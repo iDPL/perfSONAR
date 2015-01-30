@@ -54,6 +54,15 @@ rpm --import /tmp/RPM-GPG-KEY-Internet2
 
 /sbin/chkconfig haldaemon on
 
+
+#
+# redirect to https and not to http since we opened only https
+#
+if [ -f /etc/httpd/conf.d/toolkit_root_redirect.conf ]; then
+	/bin/sed -i 's/http:\/\//https:\/\//g' /etc/httpd/conf.d/toolkit_root_redirect.conf
+fi
+
+
 <!-- perfSONAR startup seems to disable sshd, undo this madness -->
 <!-- Configure NIC Parameters can cause unexpected performance issues, turn it off -->
 <file name="/etc/rc.d/rocksconfig.d/post-98-perfSONAR" perms="744">
