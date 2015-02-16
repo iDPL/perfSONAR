@@ -7,4 +7,22 @@ set the perfSONAR_UI attribute for the frontend -->
 /opt/rocks/bin/rocks add host attr localhost perfSONAR_UI "&perfSONAR_UI;" 
 </post>
 
+<post>
+<!-- Manage firewall -->
+<!-- BWCTL Rules -->
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=tcp service=all rulename=A101-PERFSONAR-BWCTL-PORT flags="--dport 4823 -m state --state NEW,RELATED"
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=udp service=all rulename=A100-PERFSONAR-BW-PORTS flags="--dport 5001:6200 -m state --state NEW,RELATED"
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=udp service=all rulename=A100-PERFSONAR-BW-PORTS-UDP flags="--dport 5001:6200 -m state --state NEW,RELATED"
+
+<!-- OWAMP Rules -->
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=tcp service=all rulename=A101-PERFSONAR-OWAMP-PORT flags="--dport 861"
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=tcp service=all rulename=A100-PERFSONAR-OWAMP-PORTS flags="--dport 8760:9960 -m state --state NEW,RELATED"
+/opt/rocks/bin/rocks add firewall global=global action=ACCEPT chain=INPUT network=public protocol=udp service=all rulename=A100-PERFSONAR-OWAMP-PORTS-UDP flags="--dport 8760:9960 -m state --state NEW,RELATED"
+
+<!-- Reject Rules -->
+/opt/rocks/bin/rocks add firewall global=global action=REJECT chain=INPUT network=public protocol=tcp service=2070 rulename=R901-MEMCACHED-PORT 
+/opt/rocks/bin/rocks add firewall global=global action=REJECT chain=INPUT network=public protocol=udp service=2070 rulename=R901-MEMCACHED-PORT-UDP 
+/opt/rocks/bin/rocks add firewall global=global action=REJECT chain=INPUT network=public protocol=tcp service=all rulename=R901-NON-PRIVILEGED-PORTS flags="--dport 1024:65535"
+/opt/rocks/bin/rocks add firewall global=global action=REJECT chain=INPUT network=public protocol=udp service=all rulename=R901-NON-PRIVILEGED-PORTS-UDP flags="--dport 1024:65535"
+</post>
 </kickstart>
