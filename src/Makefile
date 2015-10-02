@@ -60,8 +60,13 @@
 
 default:	pkg
 
-NONPKGDIRS = epel-support perfSONAR
+NONPKGDIRS = os-support epel-support perfSONAR
 SRCDIRS = usersguide 
+
+## Exclude RPMS patterns from the roll (they need to brought in elsewhere)
+## But this roll is not the appropriate place
+EXCLUDES = glibc* 
+.PHONY: $(EXCLUDES)
 
 pkg rpm ::
 	for i in $(SRCDIRS) ; do \
@@ -74,6 +79,13 @@ pkg rpm ::
 		cd $$i; \
 		$(MAKE) || exit 2 ; \
 		cd ..; \
+	done
+	$(MAKE) exclude
+
+
+exclude: $(EXCLUDES)
+	for i in $(EXCLUDES) ; do \
+		find ../RPMS -name "$$i" -exec /bin/rm {} \; -print ;\
 	done
 
 copyright clean veryclean::
